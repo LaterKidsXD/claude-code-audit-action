@@ -6,7 +6,7 @@ branding:
   color: 'red'
 inputs:
   api_key:
-    description: 'Anthropic API key (BYOK). Pass via repo secret, e.g. ${{ secrets.ANTHROPIC_API_KEY }}.'
+    description: 'Anthropic API key (BYOK). Pass via repo secret, referenced as secrets.ANTHROPIC_API_KEY in your workflow.'
     required: true
   model:
     description: 'Anthropic model ID. Defaults to claude-opus-4-7. Use claude-sonnet-4-6 or claude-haiku-4-5 to lower cost.'
