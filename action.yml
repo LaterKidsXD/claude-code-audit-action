@@ -1,5 +1,5 @@
 name: 'Claim Auditor'
-description: 'Adversarial quantitative claim audit for Markdown reports in PRs. Catches probability-stacking, conditional-vs-marginal, and percentage-vs-percentage-points errors that humans and generic linters miss.'
+description: 'Audits PR Markdown reports for probability stacking, conditional-vs-marginal, and percentage-point math errors.'
 author: 'LaterKidsXD'
 branding:
   icon: 'check-circle'
