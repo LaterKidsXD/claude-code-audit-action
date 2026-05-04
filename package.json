@@ -1,0 +1,43 @@
+{
+  "name": "claim-auditor-action",
+  "version": "1.0.0",
+  "private": true,
+  "description": "GitHub Action that audits Markdown reports in PRs for quantitative claim errors via the claim-auditor methodology.",
+  "main": "dist/index.js",
+  "scripts": {
+    "build": "ncc build src/main.ts -o dist --minify --source-map --license licenses.txt",
+    "lint": "eslint src tests --ext .ts",
+    "format": "prettier --write \"src/**/*.ts\" \"tests/**/*.ts\"",
+    "format:check": "prettier --check \"src/**/*.ts\" \"tests/**/*.ts\"",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "sync-prompt": "bash scripts/sync-system-prompt.sh",
+    "verify-prompt": "bash scripts/verify-system-prompt.sh",
+    "all": "npm run lint && npm run format:check && npm run test && npm run build"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/LaterKidsXD/claude-code-audit-action.git"
+  },
+  "author": "LaterKidsXD",
+  "license": "MIT",
+  "dependencies": {
+    "@actions/core": "^1.11.1",
+    "@actions/github": "^6.0.0",
+    "@anthropic-ai/sdk": "^0.32.1",
+    "minimatch": "^10.0.1"
+  },
+  "devDependencies": {
+    "@types/node": "^20.11.0",
+    "@typescript-eslint/eslint-plugin": "^7.0.0",
+    "@typescript-eslint/parser": "^7.0.0",
+    "@vercel/ncc": "^0.38.1",
+    "eslint": "^8.57.0",
+    "prettier": "^3.2.0",
+    "typescript": "^5.4.0",
+    "vitest": "^1.6.0"
+  },
+  "engines": {
+    "node": ">=20.0.0"
+  }
+}

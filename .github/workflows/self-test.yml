@@ -1,0 +1,43 @@
+name: Self-test (dogfood)
+
+# Dogfood the Action on this repo's own PRs. Runs the latest committed dist/ on
+# any *.report.md file in the PR diff. Skipped on PRs from forks (no secrets access).
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+    paths:
+      - '**/*.report.md'
+      - 'tests/fixtures/**.md'
+      - 'src/**'
+      - 'dist/**'
+      - 'action.yml'
+
+permissions:
+  contents: read
+  pull-requests: write
+  issues: write
+
+jobs:
+  audit:
+    if: github.event.pull_request.head.repo.full_name == github.repository
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Run claim-auditor on this PR
+        id: audit
+        uses: ./
+        with:
+          api_key: ${{ secrets.ANTHROPIC_API_KEY }}
+          model: claude-opus-4-7
+          report_glob: '**/*.report.md'
+          severity_floor: P2
+          fail_on_p1: 'true'
+
+      - name: Echo outputs
+        run: |
+          echo "P1 count: ${{ steps.audit.outputs.p1_count }}"
+          echo "P2 count: ${{ steps.audit.outputs.p2_count }}"
+          echo "P3 count: ${{ steps.audit.outputs.p3_count }}"
+          echo "decision_safe: ${{ steps.audit.outputs.decision_safe }}"

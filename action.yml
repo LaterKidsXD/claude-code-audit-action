@@ -1,0 +1,44 @@
+name: 'Claim Auditor'
+description: 'Adversarial quantitative claim audit for Markdown reports in PRs. Catches probability-stacking, conditional-vs-marginal, and percentage-vs-percentage-points errors that humans and generic linters miss.'
+author: 'LaterKidsXD'
+branding:
+  icon: 'check-circle'
+  color: 'red'
+inputs:
+  api_key:
+    description: 'Anthropic API key (BYOK). Pass via repo secret, e.g. ${{ secrets.ANTHROPIC_API_KEY }}.'
+    required: true
+  model:
+    description: 'Anthropic model ID. Defaults to claude-opus-4-7. Use claude-sonnet-4-6 or claude-haiku-4-5 to lower cost.'
+    required: false
+    default: 'claude-opus-4-7'
+  report_glob:
+    description: 'Glob pattern for report files to audit. Multiple patterns can be passed comma-separated.'
+    required: false
+    default: '**/*.report.md'
+  severity_floor:
+    description: 'Minimum severity to report: P1, P2, or P3.'
+    required: false
+    default: 'P2'
+  fail_on_p1:
+    description: 'Fail the check if any P1 findings are present.'
+    required: false
+    default: 'true'
+  github_token:
+    description: 'GitHub token for PR comment + check API.'
+    required: false
+    default: ${{ github.token }}
+outputs:
+  findings_json:
+    description: 'JSON array of all findings across audited files.'
+  p1_count:
+    description: 'Number of P1 findings.'
+  p2_count:
+    description: 'Number of P2 findings.'
+  p3_count:
+    description: 'Number of P3 findings.'
+  decision_safe:
+    description: 'true if no findings at or above severity_floor; false otherwise.'
+runs:
+  using: 'node20'
+  main: 'dist/index.js'

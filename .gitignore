@@ -1,0 +1,10 @@
+node_modules/
+lib/
+*.log
+.env
+.env.local
+.DS_Store
+coverage/
+.vitest-cache/
+.vscode/
+.idea/

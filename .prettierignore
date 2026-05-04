@@ -1,0 +1,6 @@
+dist/
+lib/
+node_modules/
+system-prompts/
+*.md
+package-lock.json
